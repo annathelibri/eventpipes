@@ -7,7 +7,6 @@ import pw.aru.lib.eventpipes.internal.DefaultEventPipe;
 import pw.aru.lib.eventpipes.internal.DefaultKeyedEventPipe;
 
 import java.util.concurrent.ExecutorService;
-import java.util.function.Consumer;
 
 public class EventPipes {
     public static <T> EventPipe<T> newPipe() {
@@ -26,10 +25,6 @@ public class EventPipes {
         return new DefaultEventPipe<>(executor);
     }
 
-    public static <T> EventPipe<T> newAsyncPipe(Consumer<Runnable> simpleExecutor) {
-        return new DefaultEventPipe<>(EventExecutor.upgrade(simpleExecutor));
-    }
-
     public static <K, V> KeyedEventPipe<K, V> newKeyedPipe() {
         return new DefaultKeyedEventPipe<>(EventExecutor.ON_THREAD);
     }
@@ -45,9 +40,4 @@ public class EventPipes {
     public static <K, V> KeyedEventPipe<K, V> newAsyncKeyedPipe(EventExecutor executor) {
         return new DefaultKeyedEventPipe<>(executor);
     }
-
-    public static <K, V> KeyedEventPipe<K, V> newAsyncKeyedPipe(Consumer<Runnable> simpleExecutor) {
-        return new DefaultKeyedEventPipe<>(EventExecutor.upgrade(simpleExecutor));
-    }
-
 }
