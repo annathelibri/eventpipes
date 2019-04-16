@@ -2,6 +2,7 @@ package pw.aru.lib.eventpipes.api;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public interface EventExecutor {
@@ -26,5 +27,28 @@ public interface EventExecutor {
         };
     }
 
+    static EventExecutor upgradeKeyed(BiConsumer<Object, Runnable> keyedRunnableConsumer) {
+        return new EventExecutor() {
+            @Override
+            public CompletableFuture<?> execute(Runnable runnable) {
+                return executeKeyed(null, runnable);
+            }
+
+            @Override
+            public CompletableFuture<?> executeKeyed(Object key, Runnable runnable) {
+                CompletableFuture<?> completable = new CompletableFuture<>();
+                keyedRunnableConsumer.accept(key, () -> {
+                    runnable.run();
+                    completable.complete(null);
+                });
+                return completable;
+            }
+        };
+    }
+
     CompletableFuture<?> execute(Runnable runnable);
+
+    default CompletableFuture<?> executeKeyed(Object key, Runnable runnable) {
+        return execute(runnable);
+    }
 }

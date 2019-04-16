@@ -37,6 +37,11 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
             protected void onEmpty() {
                 pipes.remove(key);
             }
+
+            @Override
+            protected CompletableFuture<?> onExecute(V event, EventConsumer<V> consumer) {
+                return executor.executeKeyed(key, new EventRunnable(event, consumer));
+            }
         });
     }
 
@@ -52,7 +57,7 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
 
     @Override
     public EventPipe<V> pipe(K key) {
-        return new Pipe(key);
+        return new KeyedPipe(key);
     }
 
     @Override
@@ -65,10 +70,17 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
         return wrapPublisher(pipe(key));
     }
 
-    class Pipe implements EventPipe<V> {
+    @Override
+    public void close() {
+        for (EventPipe<V> pipe : pipes.values()) {
+            pipe.close();
+        }
+    }
+
+    class KeyedPipe implements EventPipe<V> {
         private final K key;
 
-        Pipe(K key) {
+        KeyedPipe(K key) {
             this.key = key;
         }
 
@@ -90,6 +102,11 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
         @Override
         public EventPublisher<V> publisher() {
             return wrapPublisher(this);
+        }
+
+        @Override
+        public void close() {
+            pipeOf(key).close();
         }
     }
 }

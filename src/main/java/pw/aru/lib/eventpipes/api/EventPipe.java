@@ -1,7 +1,12 @@
 package pw.aru.lib.eventpipes.api;
 
-public interface EventPipe<T> extends EventSubscriber<T>, EventPublisher<T> {
+import java.io.Closeable;
+
+public interface EventPipe<T> extends EventSubscriber<T>, EventPublisher<T>, Closeable {
     EventSubscriber<T> subscriber();
 
     EventPublisher<T> publisher();
+
+    @Override
+    void close();
 }

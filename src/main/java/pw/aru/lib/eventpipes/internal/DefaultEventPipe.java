@@ -24,7 +24,7 @@ public class DefaultEventPipe<T> implements EventPipe<T> {
     public CompletableFuture<Void> publish(T event) {
         return CompletableFuture.allOf(
             consumers.stream()
-                .map(consumer -> executor.execute(new EventRunnable(event, consumer)))
+                .map(consumer -> onExecute(event, consumer))
                 .toArray(CompletableFuture[]::new)
         );
     }
@@ -34,11 +34,21 @@ public class DefaultEventPipe<T> implements EventPipe<T> {
         return new Subscription(consumer);
     }
 
+    @Override
+    public void close() {
+        consumers.clear();
+        onEmpty();
+    }
+
     private void unsubscribe(EventConsumer<T> consumer) {
         consumers.remove(consumer);
         if (consumers.isEmpty()) {
             onEmpty();
         }
+    }
+
+    protected CompletableFuture<?> onExecute(T event, EventConsumer<T> consumer) {
+        return executor.execute(new EventRunnable(event, consumer));
     }
 
     protected void onEmpty() {
