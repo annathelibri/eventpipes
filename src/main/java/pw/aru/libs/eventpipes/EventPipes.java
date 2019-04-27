@@ -1,10 +1,10 @@
-package pw.aru.lib.eventpipes;
+package pw.aru.libs.eventpipes;
 
-import pw.aru.lib.eventpipes.api.EventExecutor;
-import pw.aru.lib.eventpipes.api.EventPipe;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventPipe;
-import pw.aru.lib.eventpipes.internal.DefaultEventPipe;
-import pw.aru.lib.eventpipes.internal.DefaultKeyedEventPipe;
+import pw.aru.libs.eventpipes.api.EventExecutor;
+import pw.aru.libs.eventpipes.api.EventPipe;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventPipe;
+import pw.aru.libs.eventpipes.internal.DefaultEventPipe;
+import pw.aru.libs.eventpipes.internal.DefaultKeyedEventPipe;
 
 import java.util.concurrent.ExecutorService;
 

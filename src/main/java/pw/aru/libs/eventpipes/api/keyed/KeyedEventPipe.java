@@ -1,11 +1,10 @@
-package pw.aru.lib.eventpipes.api.keyed;
+package pw.aru.libs.eventpipes.api.keyed;
 
-import pw.aru.lib.eventpipes.api.EventPipe;
-import pw.aru.lib.eventpipes.api.EventPublisher;
-import pw.aru.lib.eventpipes.api.EventSubscriber;
+import pw.aru.libs.eventpipes.api.EventPipe;
+import pw.aru.libs.eventpipes.api.EventPublisher;
+import pw.aru.libs.eventpipes.api.EventSubscriber;
 
 import java.io.Closeable;
-import java.io.IOException;
 
 public interface KeyedEventPipe<K, V> extends KeyedEventSubscriber<K, V>, KeyedEventPublisher<K, V>, Closeable {
     KeyedEventSubscriber<K, V> subscriber();

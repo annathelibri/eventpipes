@@ -1,15 +1,50 @@
 # EventPipes
-Event Pipes for Java. Quite Reactive.
+
+Fully configured lightweight event publishing/subscribing library, made in pure Java.
 
 The library is REALLY small and is made on pure Java 8.
 
-### Get it on JCenter:
+Licensed under the [MIT License](https://github.com/arudiscord/eventpipes/blob/master/LICENSE).
 
-![Latest Version](https://api.bintray.com/packages/adriantodt/maven/eventpipes/images/download.svg)
+### Installation
 
-### Using It:
+![Latest Version](https://api.bintray.com/packages/arudiscord/maven/eventpipes/images/download.svg)
 
-Your starting point is `pw.aru.lib.eventpipes.EventPipes`.
+Using in Gradle:
+
+```gradle
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'pw.aru.libs:eventpipes:LATEST' // replace LATEST with the version above
+}
+```
+
+Using in Maven:
+
+```xml
+<repositories>
+  <repository>
+    <id>central</id>
+    <name>bintray</name>
+    <url>http://jcenter.bintray.com</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>pw.aru.libs</groupId>
+    <artifactId>eventpipes</artifactId>
+    <version>LATEST</version> <!-- replace LATEST with the version above -->
+  </dependency>
+</dependencies>
+```
+
+### Usage
+
+The starting point of the library is the `EventPipes` class.
 
 - Use `EventPipes.newPipe` (or `newAsyncPipe`) to create your first pipe.
 - If you need stuff being handled by the key, use `EventPipes.newKeyedPipe` (or `newAsyncKeyedPipe`)
@@ -53,3 +88,9 @@ public class MyEventAPI {
     }
 }
 ```
+
+### Support
+
+Support is given on [Aru's Discord Server](https://discord.gg/URPghxg)
+
+[![Aru's Discord Server](https://discordapp.com/api/guilds/403934661627215882/embed.png?style=banner2)](https://discord.gg/URPghxg)

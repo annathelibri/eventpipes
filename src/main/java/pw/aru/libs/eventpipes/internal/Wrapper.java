@@ -1,11 +1,11 @@
-package pw.aru.lib.eventpipes.internal;
+package pw.aru.libs.eventpipes.internal;
 
-import pw.aru.lib.eventpipes.api.EventConsumer;
-import pw.aru.lib.eventpipes.api.EventPublisher;
-import pw.aru.lib.eventpipes.api.EventSubscriber;
-import pw.aru.lib.eventpipes.api.EventSubscription;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventPublisher;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventSubscriber;
+import pw.aru.libs.eventpipes.api.EventConsumer;
+import pw.aru.libs.eventpipes.api.EventPublisher;
+import pw.aru.libs.eventpipes.api.EventSubscriber;
+import pw.aru.libs.eventpipes.api.EventSubscription;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventPublisher;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventSubscriber;
 
 import java.util.concurrent.CompletableFuture;
 

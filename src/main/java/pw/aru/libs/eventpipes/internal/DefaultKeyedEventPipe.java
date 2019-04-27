@@ -1,16 +1,16 @@
-package pw.aru.lib.eventpipes.internal;
+package pw.aru.libs.eventpipes.internal;
 
-import pw.aru.lib.eventpipes.api.*;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventPipe;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventPublisher;
-import pw.aru.lib.eventpipes.api.keyed.KeyedEventSubscriber;
+import pw.aru.libs.eventpipes.api.*;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventPipe;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventPublisher;
+import pw.aru.libs.eventpipes.api.keyed.KeyedEventSubscriber;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static pw.aru.lib.eventpipes.internal.Wrapper.wrapPublisher;
-import static pw.aru.lib.eventpipes.internal.Wrapper.wrapSubscriber;
+import static pw.aru.libs.eventpipes.internal.Wrapper.wrapPublisher;
+import static pw.aru.libs.eventpipes.internal.Wrapper.wrapSubscriber;
 
 public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
     private final EventExecutor executor;
@@ -62,12 +62,12 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
 
     @Override
     public EventSubscriber<V> subscriber(K key) {
-        return wrapSubscriber(pipe(key));
+        return Wrapper.wrapSubscriber(pipe(key));
     }
 
     @Override
     public EventPublisher<V> publisher(K key) {
-        return wrapPublisher(pipe(key));
+        return Wrapper.wrapPublisher(pipe(key));
     }
 
     @Override

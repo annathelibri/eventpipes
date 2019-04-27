@@ -1,6 +1,6 @@
-package pw.aru.lib.eventpipes.internal;
+package pw.aru.libs.eventpipes.internal;
 
-import pw.aru.lib.eventpipes.api.*;
+import pw.aru.libs.eventpipes.api.*;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static pw.aru.lib.eventpipes.internal.Wrapper.wrapPublisher;
-import static pw.aru.lib.eventpipes.internal.Wrapper.wrapSubscriber;
+import static pw.aru.libs.eventpipes.internal.Wrapper.wrapPublisher;
+import static pw.aru.libs.eventpipes.internal.Wrapper.wrapSubscriber;
 
 public class DefaultEventPipe<T> implements EventPipe<T> {
     private final EventExecutor executor;

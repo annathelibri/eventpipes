@@ -1,4 +1,4 @@
-package pw.aru.lib.eventpipes.api;
+package pw.aru.libs.eventpipes.api;
 
 import java.util.concurrent.CompletableFuture;
 
