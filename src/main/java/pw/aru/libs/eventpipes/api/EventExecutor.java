@@ -31,7 +31,7 @@ public interface EventExecutor {
         return new EventExecutor() {
             @Override
             public CompletableFuture<?> execute(Runnable runnable) {
-                return executeKeyed(null, runnable);
+                return executeKeyed(runnable, runnable);
             }
 
             @Override
