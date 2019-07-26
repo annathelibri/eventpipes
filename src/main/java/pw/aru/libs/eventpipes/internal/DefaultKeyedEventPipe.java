@@ -8,6 +8,7 @@ import pw.aru.libs.eventpipes.api.keyed.KeyedEventSubscriber;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 import static pw.aru.libs.eventpipes.internal.Wrapper.wrapPublisher;
 import static pw.aru.libs.eventpipes.internal.Wrapper.wrapSubscriber;
@@ -29,6 +30,11 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
     @Override
     public EventSubscription<V> subscribe(K key, EventConsumer<V> consumer) {
         return pipeOf(key).subscribe(consumer);
+    }
+
+    @Override
+    public CompletableFuture<V> first(K key, Predicate<V> predicate) {
+        return pipeOf(key).first(predicate);
     }
 
     private EventPipe<V> pipeOf(K key) {
@@ -92,6 +98,11 @@ public class DefaultKeyedEventPipe<K, V> implements KeyedEventPipe<K, V> {
         @Override
         public EventSubscription<V> subscribe(EventConsumer<V> consumer) {
             return DefaultKeyedEventPipe.this.subscribe(key, consumer);
+        }
+
+        @Override
+        public CompletableFuture<V> first(Predicate<V> predicate) {
+            return DefaultKeyedEventPipe.this.first(key, predicate);
         }
 
         @Override

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 import static pw.aru.libs.eventpipes.internal.Wrapper.wrapPublisher;
 import static pw.aru.libs.eventpipes.internal.Wrapper.wrapSubscriber;
@@ -32,6 +33,11 @@ public class DefaultEventPipe<T> implements EventPipe<T> {
     @Override
     public EventSubscription<T> subscribe(EventConsumer<T> consumer) {
         return new Subscription(consumer);
+    }
+
+    @Override
+    public CompletableFuture<T> first(Predicate<T> predicate) {
+        return new FirstConsumer(predicate).first;
     }
 
     @Override
@@ -86,6 +92,24 @@ public class DefaultEventPipe<T> implements EventPipe<T> {
         @Override
         public EventPipe<T> pipe() {
             return DefaultEventPipe.this;
+        }
+    }
+
+    class FirstConsumer implements EventConsumer<T> {
+        private final Predicate<T> predicate;
+        private final CompletableFuture<T> first = new CompletableFuture<>();
+
+        FirstConsumer(Predicate<T> predicate) {
+            this.predicate = Objects.requireNonNull(predicate);
+            consumers.add(this);
+        }
+
+        @Override
+        public void onEvent(T event) {
+            if (predicate.test(event)) {
+                unsubscribe(this);
+                first.complete(event);
+            }
         }
     }
 

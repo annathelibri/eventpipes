@@ -8,6 +8,7 @@ import pw.aru.libs.eventpipes.api.keyed.KeyedEventPublisher;
 import pw.aru.libs.eventpipes.api.keyed.KeyedEventSubscriber;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 public class Wrapper {
     public static <T> EventSubscriber<T> wrapSubscriber(EventSubscriber<T> wrapped) {
@@ -37,6 +38,11 @@ public class Wrapper {
         public EventSubscription<T> subscribe(EventConsumer<T> consumer) {
             return wrapped.subscribe(consumer);
         }
+
+        @Override
+        public CompletableFuture<T> first(Predicate<T> predicate) {
+            return wrapped.first(predicate);
+        }
     }
 
     private static class WrappedPublisher<T> implements EventPublisher<T> {
@@ -62,6 +68,11 @@ public class Wrapper {
         @Override
         public EventSubscription<V> subscribe(K key, EventConsumer<V> consumer) {
             return wrapped.subscribe(key, consumer);
+        }
+
+        @Override
+        public CompletableFuture<V> first(K key, Predicate<V> predicate) {
+            return wrapped.first(key, predicate);
         }
     }
 
