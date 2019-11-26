@@ -7,4 +7,8 @@ public interface EventSubscriber<T> {
     EventSubscription<T> subscribe(EventConsumer<T> consumer);
 
     CompletableFuture<T> first(Predicate<T> predicate);
+
+    default CompletableFuture<T> first() {
+        return first(obj -> true);
+    }
 }

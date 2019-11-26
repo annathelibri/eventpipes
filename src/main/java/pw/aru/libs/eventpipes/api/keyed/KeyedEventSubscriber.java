@@ -10,4 +10,8 @@ public interface KeyedEventSubscriber<K, V> {
     EventSubscription<V> subscribe(K key, EventConsumer<V> consumer);
 
     CompletableFuture<V> first(K key, Predicate<V> predicate);
+
+    default CompletableFuture<V> first(K key) {
+        return first(key, obj -> true);
+    }
 }

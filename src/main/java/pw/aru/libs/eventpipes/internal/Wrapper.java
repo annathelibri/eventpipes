@@ -6,25 +6,35 @@ import pw.aru.libs.eventpipes.api.EventSubscriber;
 import pw.aru.libs.eventpipes.api.EventSubscription;
 import pw.aru.libs.eventpipes.api.keyed.KeyedEventPublisher;
 import pw.aru.libs.eventpipes.api.keyed.KeyedEventSubscriber;
+import pw.aru.libs.eventpipes.api.typed.TypedEventPublisher;
+import pw.aru.libs.eventpipes.api.typed.TypedEventSubscriber;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 public class Wrapper {
     public static <T> EventSubscriber<T> wrapSubscriber(EventSubscriber<T> wrapped) {
-        return new WrappedSubscriber<T>(wrapped);
+        return new WrappedSubscriber<>(wrapped);
     }
 
     public static <K, V> KeyedEventSubscriber<K, V> wrapSubscriber(KeyedEventSubscriber<K, V> wrapped) {
-        return new WrappedKeyedSubscriber<K, V>(wrapped);
+        return new WrappedKeyedSubscriber<>(wrapped);
+    }
+
+    public static TypedEventSubscriber wrapSubscriber(TypedEventSubscriber wrapped) {
+        return new WrappedTypedSubscriber(wrapped);
     }
 
     public static <T> EventPublisher<T> wrapPublisher(EventPublisher<T> wrapped) {
-        return new WrappedPublisher<T>(wrapped);
+        return new WrappedPublisher<>(wrapped);
     }
 
     public static <K, V> KeyedEventPublisher<K, V> wrapPublisher(KeyedEventPublisher<K, V> wrapped) {
-        return new WrappedKeyedPublisher<K, V>(wrapped);
+        return new WrappedKeyedPublisher<>(wrapped);
+    }
+
+    public static TypedEventPublisher wrapPublisher(TypedEventPublisher wrapped) {
+        return new WrappedTypedPublisher(wrapped);
     }
 
     private static class WrappedSubscriber<T> implements EventSubscriber<T> {
@@ -86,6 +96,37 @@ public class Wrapper {
         @Override
         public CompletableFuture<Void> publish(K key, V value) {
             return wrapped.publish(key, value);
+        }
+    }
+
+    private static class WrappedTypedSubscriber implements TypedEventSubscriber {
+        private final TypedEventSubscriber wrapped;
+
+        WrappedTypedSubscriber(TypedEventSubscriber wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public <T> EventSubscription<T> subscribe(Class<T> type, EventConsumer<T> consumer) {
+            return wrapped.subscribe(type, consumer);
+        }
+
+        @Override
+        public <T> CompletableFuture<T> first(Class<T> type, Predicate<T> predicate) {
+            return wrapped.first(type, predicate);
+        }
+    }
+
+    private static class WrappedTypedPublisher implements TypedEventPublisher {
+        private final TypedEventPublisher wrapped;
+
+        WrappedTypedPublisher(TypedEventPublisher wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public CompletableFuture<Void> publish(Object event) {
+            return wrapped.publish(event);
         }
     }
 }

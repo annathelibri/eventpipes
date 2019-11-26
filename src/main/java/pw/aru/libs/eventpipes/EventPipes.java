@@ -3,8 +3,10 @@ package pw.aru.libs.eventpipes;
 import pw.aru.libs.eventpipes.api.EventExecutor;
 import pw.aru.libs.eventpipes.api.EventPipe;
 import pw.aru.libs.eventpipes.api.keyed.KeyedEventPipe;
+import pw.aru.libs.eventpipes.api.typed.TypedEventPipe;
 import pw.aru.libs.eventpipes.internal.DefaultEventPipe;
 import pw.aru.libs.eventpipes.internal.DefaultKeyedEventPipe;
+import pw.aru.libs.eventpipes.internal.DefaultTypedEventPipe;
 
 import java.util.concurrent.ExecutorService;
 
@@ -39,5 +41,21 @@ public class EventPipes {
 
     public static <K, V> KeyedEventPipe<K, V> newAsyncKeyedPipe(EventExecutor executor) {
         return new DefaultKeyedEventPipe<>(executor);
+    }
+
+    public static TypedEventPipe newTypedPipe() {
+        return new DefaultTypedEventPipe(EventExecutor.ON_THREAD);
+    }
+
+    public static TypedEventPipe newAsyncTypedPipe() {
+        return new DefaultTypedEventPipe(EventExecutor.ASYNC);
+    }
+
+    public static TypedEventPipe newAsyncTypedPipe(ExecutorService executor) {
+        return new DefaultTypedEventPipe(EventExecutor.of(executor));
+    }
+
+    public static TypedEventPipe newAsyncTypedPipe(EventExecutor executor) {
+        return new DefaultTypedEventPipe(executor);
     }
 }
